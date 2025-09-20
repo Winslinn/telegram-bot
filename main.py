@@ -1,6 +1,7 @@
-import psutil, os
+import psutil, os, threading, asyncio
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from commands import listen_input
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Hello!")
@@ -18,6 +19,9 @@ if __name__ == '__main__':
     app.add_handler(CommandHandler("info", info))
     
     print("Starting webhook server")
+    
+    loop = asyncio.get_event_loop()
+    threading.Thread(target=listen_input, args=(app, loop), daemon=True).start()
     app.run_webhook(
         listen="0.0.0.0",
         port=3000,
@@ -25,4 +29,3 @@ if __name__ == '__main__':
         webhook_url=os.environ["WEBHOOK"],
         drop_pending_updates=True
     )
-    print("Server started")

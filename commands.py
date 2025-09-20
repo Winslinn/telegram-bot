@@ -1,36 +1,30 @@
 import asyncio
+from telegram.ext import Application
 
 running = True
-app = None
 
-def help_command():
-    print("Available commands:", ", ".join(commands.keys()))
-def exit_command():
+def help_command(bot_app=None, loop=asyncio.BaseEventLoop):
+    print("Available commands:", ", ".join(commands_dict.keys()))
+def exit_command(bot_app: Application, loop):
     global running
     running = False
-    asyncio.run_coroutine_threadsafe(app.stop(), asyncio.get_event_loop())
-    return
 
-commands = {
+    loop.call_soon_threadsafe(bot_app.stop_running)
+
+commands_dict = {
     "help": help_command,
     "exit": exit_command,
 }
 
-async def main(bot_app):
+def listen_input(bot_app, loop):
     print("\nType commands or 'help' to see available commands.")
-    
-    global running, app
-    app = bot_app
     
     while running:
         cmd = input().strip().lower()
-        func = commands.get(cmd)
+        func = commands_dict.get(cmd)
         if func:
-            func()
+            func(bot_app, loop)
         elif cmd == "":
             continue
         else:
             print("Unknown command:", cmd)
-
-if __name__ == "__main__":
-    main()
