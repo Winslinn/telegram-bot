@@ -3,9 +3,9 @@ from telegram.ext import Application
 
 running = True
 
-def help_command(bot_app=None, loop=asyncio.BaseEventLoop):
+def help_command(bot_app: Application=None, loop: asyncio.BaseEventLoop = None):
     print("Available commands:", ", ".join(commands_dict.keys()))
-def exit_command(bot_app: Application, loop):
+def exit_command(bot_app: Application, loop: asyncio.BaseEventLoop):
     global running
     running = False
 
@@ -17,7 +17,7 @@ commands_dict = {
 }
 
 def listen_input(bot_app, loop):
-    print("\nType commands or 'help' to see available commands.")
+    print("\nType commands or 'help' to see available commands for manipulating.")
     
     while running:
         cmd = input().strip().lower()
