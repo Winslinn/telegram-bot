@@ -1,3 +1,4 @@
+[![Status](https://winslinn.dpdns.org/badge)](https://winslinn.dpdns.org/badge)
 
 # Telegram bot | News Aggregator
 
