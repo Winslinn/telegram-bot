@@ -1,27 +1,47 @@
-import psutil, os, threading, asyncio
+import os, threading, asyncio, gettext
+import database as db
+
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from functools import lru_cache
+
 from commands import listen_input
+from bot_api import run_api
+from translator import translate_message
 
+gettext.bindtextdomain('messages', 'locales')
+
+gettext.textdomain('messages')
+_ = gettext.gettext
+
+app = ApplicationBuilder().token(os.environ["BOT_TOKEN"]).build()
+
+def command(cmd):
+    def decorator(func):
+        app.add_handler(CommandHandler(cmd, func))
+    return decorator
+
+@command("start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Hello!")
-
-async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    process = psutil.Process()
-    mem_info = process.memory_info().rss / (1024 * 1024)
-    message = "{:.2f} MB пам'яті.".format(mem_info) + f"\nСервер запущений: {os.popen('uptime -p').read()[:-1]}"
-    await update.message.reply_text("Наразі бот використовує:\n" + message)
-
+    _ = translate_message(update)
+    
+    if db.check_user(update) is None:
+        await update.message.reply_text(_("Hello 👋! This is a bot that allows you to quickly get news from various news sites. To get started, send a link containing the site's domain name, or use other features of this bot below!"))
+        db.add_user(update)
+    else:
+        await update.message.reply_text(_("🏠Home"))
+    
 if __name__ == '__main__':
-    app = ApplicationBuilder().token(os.environ["BOT_TOKEN"]).build()
-    
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("info", info))
-    
-    print("Starting webhook server")
+    print("Bot environment initialized. Listening webhook...")
     
     loop = asyncio.get_event_loop()
+    
+    # Feature initialization
     threading.Thread(target=listen_input, args=(app, loop), daemon=True).start()
+    threading.Thread(target=run_api, daemon=True).start()
+    
+    database, db_cursor = db.init_db()
+    
     app.run_webhook(
         listen="0.0.0.0",
         port=3000,
