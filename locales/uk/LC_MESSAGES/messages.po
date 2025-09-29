@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 13:38+0000\n"
+"POT-Creation-Date: 2025-09-29 21:18+0000\n"
 "PO-Revision-Date: 2025-09-28 12:15+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,15 +19,50 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: main.py:29
-msgid ""
-"Hello 👋! This is a bot that allows you to quickly get news from various "
-"news sites. To get started, send a link containing the site's domain name, "
-"or use other features of this bot below!"
+msgid "📰 Get last news"
+msgstr "📰 Отримати останні новини"
+
+#: main.py:30 main.py:37
+msgid "👍 Subscribe to the source"
+msgstr "👍 Підписатись на джерело"
+
+#: main.py:31
+msgid "⚙️ Settings"
+msgstr "⚙️ Налаштування"
+
+#: main.py:38
+msgid "ℹ️ Available sources"
+msgstr "ℹ️ Доступні джерела"
+
+#: main.py:44
+msgid "Cancel"
+msgstr ""
+
+#: main.py:52
+msgid "🏠 Home"
+msgstr "🏠 Головна"
+
+#: main.py:54
+msgid "welcome_message"
 msgstr ""
 "Привіт 👋! Це бот, що дозволяє швидко отримувати новини з різних новинних "
 "сайтів. Щоб почати роботу, надішліть посилання, що містить доменне ім'я "
 "сайту, або скористайтеся іншими можливостями цього боту нижче!"
 
-#: main.py:32
-msgid "🏠Home"
-msgstr "🏠Головна"
+#: main.py:69
+msgid ""
+"Please submit the URL you want to subscribe to (e.g. https://example.com):"
+msgstr ""
+
+#: main.py:88
+msgid "You have subscribed to the URL: {}"
+msgstr ""
+
+#: main.py:90
+msgid "The URL seems to be invalid. Please try again."
+msgstr ""
+
+#: main.py:92
+msgid ""
+"Probably this is not a url. Please try again url e.g. https://example.com:"
+msgstr ""

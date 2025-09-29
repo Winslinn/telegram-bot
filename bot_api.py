@@ -56,7 +56,7 @@ def run_api():
             "handlers": {
                 "file": {
                     "class": "logging.FileHandler",
-                    "filename": "bot/uvicorn.log",
+                    "filename": "uvicorn.log",
                     "formatter": "default",
                 },
             },

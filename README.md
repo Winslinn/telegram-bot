@@ -1,6 +1,6 @@
-![Status](https://aggregator.winslinn.dpdns.org/badge?ver=2)
+[![Status](https://aggregator.winslinn.dpdns.org/badge)](https://t.me/winslinn_server_bot)
 
-# Telegram bot | News Aggregator
+# News Aggregator | Telegram bot
 
 ## Overview
 The main feature of this bot is that it automatically gets the latest news from different sources and gives you a quick summary using AI in a handy Telegram message. Users can “subscribe” to the news feed in Telegram via a URL or find any new news sources that they didn't even know about, which are added by other users. The bot only uses the /start command, which opens up the full potential of the bot to the user in a convenient form.

@@ -1,4 +1,4 @@
-import sqlite3, os, json
+import sqlite3, os
 
 from telegram import Update
 
@@ -10,11 +10,37 @@ def add_user(update: Update):
     cur.execute('INSERT OR IGNORE INTO users (id, username) VALUES (?, ?)', (user.id, user.username or user.full_name))
     conn.commit()
 
-def check_user(update: Update):
-    cur.execute('SELECT id FROM users WHERE id = ?', (update.message.from_user.id,))
-    return cur.fetchone()
+def user_subscribed(update: Update):
+    cur.execute("""
+    SELECT EXISTS(
+        SELECT 1 FROM user_urls WHERE user_id = ?
+    )
+    """, (update.message.from_user.id,))
+    
+    return cur.fetchone()[0] == 1
+
+def user_subscribe_url(user_id, url):
+    cur.execute('INSERT OR IGNORE INTO urls (url) VALUES (?)', (url,))
+    
+    cur.execute('SELECT id FROM urls WHERE url = ?', (url,))
+    url_id = cur.fetchone()[0]
+    
+    cur.execute('INSERT OR IGNORE INTO user_urls (user_id, url_id) VALUES (?, ?)', (user_id, url_id))
+    conn.commit()
 
 def init_db():
+    cur.execute('PRAGMA foreign_keys = ON')
+    
     cur.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT)')
-    cur.execute('CREATE TABLE IF NOT EXISTS urls (urls TEXT PRIMARY KEY, user_id INTEGER)')
+    cur.execute('CREATE TABLE IF NOT EXISTS urls (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE)')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS user_urls (
+            user_id INTEGER,
+            url_id INTEGER,
+            PRIMARY KEY (user_id, url_id),
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, 
+            FOREIGN KEY(url_id) REFERENCES urls(id) ON DELETE CASCADE
+        )
+    ''')
+    
     return conn, cur
