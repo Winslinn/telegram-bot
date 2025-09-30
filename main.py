@@ -24,10 +24,13 @@ def command(cmd): # Decorator to register command handlers
         app.add_handler(CommandHandler(cmd, func))
     return decorator
 
+# Keyboards
 def main_keyboard(_): # _ is the translation function
     keyboard = [
         [InlineKeyboardButton(_("📰 Get last news"), callback_data="get_news")],
         [InlineKeyboardButton(_("👍 Subscribe to the source"), callback_data="sub_url")],
+        [InlineKeyboardButton(_("ℹ️ Popular sources"), callback_data="get_urls")],
+        [InlineKeyboardButton(_("🔎 My subscriptions"), callback_data="watch_subs")],
         [InlineKeyboardButton(_("⚙️ Settings"), callback_data="settings")]
     ]
     return InlineKeyboardMarkup(keyboard)
@@ -35,7 +38,7 @@ def main_keyboard(_): # _ is the translation function
 def start_keyboard(_): # _ is the translation function
     keyboard = [
         [InlineKeyboardButton(_("👍 Subscribe to the source"), callback_data="sub_url")],
-        [InlineKeyboardButton(_("ℹ️ Available sources"), callback_data="get_urls")]
+        [InlineKeyboardButton(_("ℹ️ Popular sources"), callback_data="get_urls")]
     ]
     return InlineKeyboardMarkup(keyboard)
 
@@ -44,6 +47,7 @@ def cancel_input(_):
         [[InlineKeyboardButton(_("Cancel"), callback_data="cancel_input")]]
     )
 
+# Command handlers
 @command("start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _ = translate_message(update) # Get the translation function based on user's language
@@ -53,29 +57,63 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text(_("welcome_message"), reply_markup=start_keyboard(_))
         db.add_user(update)
-        
+    
+# Callback query handler   
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer() # WARNING! DO NOT REMOVE THIS LINE, IT'S REQUIRED BY TELEGRAM API!!! IT CONFIRMS THAT THE CALLBACK QUERY WAS RECEIVED!!!
     
     data = query.data
+    chat_id = update.effective_chat.id
     _ = translate_message(update) # Get the translation function based on user's language
     
     # subscribe to URL
     if data == "sub_url":
-        id = update.effective_chat.id
         await context.bot.send_message(
-            chat_id=id, 
+            chat_id=chat_id, 
             text=_("Please submit the URL you want to subscribe to (e.g. https://example.com):"),
             reply_markup=cancel_input(_)
         )
         context.user_data["await_input"] = "sub_url" # Set the user state to await URL input
+    elif data == "watch_subs":
+        user_id = update.effective_user.id
+        subscriptions = db.user_subscriptions(user_id)
+        if subscriptions:
+            await context.bot.send_message(
+                chat_id=chat_id, 
+                text=_("Your subscriptions:\n") + "\n".join(subscriptions),
+                reply_markup=main_keyboard(_)
+            )
+        else:
+            await context.bot.send_message(
+                chat_id=chat_id, 
+                text=_("You have no subscriptions yet."),
+                reply_markup=main_keyboard(_)
+            )
+    elif data == "get_urls":
+        popular_urls = db.most_popular_urls()
+        if popular_urls:
+            message = _("Most popular sources:\n")
+            for url, count in popular_urls:
+                message += f"{url} - {count} {_('subscribers')}\n"
+            await context.bot.send_message(
+                chat_id=chat_id, 
+                text=message,
+                reply_markup=main_keyboard(_)
+            )
+        else:
+            await context.bot.send_message(
+                chat_id=chat_id, 
+                text=_("No popular sources found."),
+                reply_markup=main_keyboard(_)
+            )
     elif data == "cancel_input":
         await query.delete_message() # Delete the message with the cancel button
         context.user_data["await_input"] = None # Clear the user state
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await_input = context.user_data.get("await_input") # Retrieve the user state of awaiting input
+    _ = translate_message(update) # Get the translation function based on user's language
     
     # If the user is expected to input a URL
     if await_input == "sub_url":
@@ -84,8 +122,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             request = requests.head(url, headers=headers, timeout=10, allow_redirects=True)
             if request.status_code == 200:
                 context.user_data["await_input"] = None
-                db.user_subscribe_url(update.effective_user.id, url)
-                await update.message.reply_text(_("You have subscribed to the URL: {}".format(url)))
+                result = db.user_subscribe_url(update.effective_user.id, url)
+                if result is not False:
+                    await update.message.reply_text(_("You have subscribed to the URL: {}".format(url)))
+                else:
+                    await update.message.reply_text(_("You are already subscribed to this URL."))
             else:
                 await update.message.reply_text(_("The URL seems to be invalid. Please try again."))
         except Exception as e:

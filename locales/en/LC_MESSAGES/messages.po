@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 21:18+0000\n"
+"POT-Creation-Date: 2025-09-30 19:54+0000\n"
 "PO-Revision-Date: 2025-09-28 12:15+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,51 +17,75 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: main.py:29
+#: main.py:30
 msgid "📰 Get last news"
 msgstr ""
 
-#: main.py:30 main.py:37
+#: main.py:31 main.py:40
 msgid "👍 Subscribe to the source"
 msgstr ""
 
-#: main.py:31
+#: main.py:32 main.py:41
+msgid "ℹ️ Popular sources"
+msgstr ""
+
+#: main.py:33
+msgid "🔎 My subscriptions"
+msgstr ""
+
+#: main.py:34
 msgid "⚙️ Settings"
 msgstr ""
 
-#: main.py:38
-msgid "ℹ️ Available sources"
-msgstr ""
-
-#: main.py:44
+#: main.py:47
 msgid "Cancel"
 msgstr ""
 
-#: main.py:52
+#: main.py:56
 msgid "🏠 Home"
 msgstr ""
 
-#: main.py:54
+#: main.py:58
 msgid "welcome_message"
 msgstr ""
 "Hello 👋! This is a bot that allows you to quickly get news from various "
 "news sites. To get started, send a link containing the site's domain name, "
 "or use other features of this bot below!"
 
-#: main.py:69
+#: main.py:74
 msgid ""
 "Please submit the URL you want to subscribe to (e.g. https://example.com):"
 msgstr ""
 
-#: main.py:88
-msgid "You have subscribed to the URL: {}"
+#: main.py:84
+msgid "Your subscriptions:\n"
 msgstr ""
 
 #: main.py:90
+msgid "You have no subscriptions yet."
+msgstr ""
+
+#: main.py:96
+msgid "Most popular sources:\n"
+msgstr ""
+
+#: main.py:107
+msgid "No popular sources found."
+msgstr ""
+
+#: main.py:127
+msgid "You have subscribed to the URL: {}"
+msgstr ""
+
+#: main.py:129
+msgid "You are already subscribed to this URL."
+msgstr ""
+
+#: main.py:131
 msgid "The URL seems to be invalid. Please try again."
 msgstr ""
 
-#: main.py:92
+#: main.py:133
 msgid ""
 "Probably this is not a url. Please try again url e.g. https://example.com:"
 msgstr ""
