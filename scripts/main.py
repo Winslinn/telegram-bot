@@ -28,23 +28,23 @@ def command(cmd): # Decorator to register command handlers
 def main_keyboard(_): # _ is the translation function
     keyboard = [
         [InlineKeyboardButton(_("📰 Get last news"), callback_data="get_news")],
-        [InlineKeyboardButton(_("👍 Subscribe to the source"), callback_data="sub_url")],
-        [InlineKeyboardButton(_("ℹ️ Popular sources"), callback_data="get_urls")],
-        [InlineKeyboardButton(_("🔎 My subscriptions"), callback_data="watch_subs")],
+        [InlineKeyboardButton(_("➕ Subscribe to the source"), callback_data="sub_url")],
+        [InlineKeyboardButton(_("🌟  Popular sources"), callback_data="get_urls")],
+        [InlineKeyboardButton(_("📋 My subscriptions"), callback_data="watch_subs")],
         [InlineKeyboardButton(_("⚙️ Settings"), callback_data="settings")]
     ]
     return InlineKeyboardMarkup(keyboard)
 
 def start_keyboard(_): # _ is the translation function
     keyboard = [
-        [InlineKeyboardButton(_("👍 Subscribe to the source"), callback_data="sub_url")],
-        [InlineKeyboardButton(_("ℹ️ Popular sources"), callback_data="get_urls")]
+        [InlineKeyboardButton(_("➕ Subscribe to the source"), callback_data="sub_url")],
+        [InlineKeyboardButton(_("🌟 Popular sources"), callback_data="get_urls")]
     ]
     return InlineKeyboardMarkup(keyboard)
 
 def cancel_input(_):
     return InlineKeyboardMarkup(
-        [[InlineKeyboardButton(_("Cancel"), callback_data="cancel_input")]]
+        [[InlineKeyboardButton(_("❌ Cancel"), callback_data="cancel_input")]]
     )
 
 # Command handlers
@@ -53,7 +53,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _ = translate_message(update) # Get the translation function based on user's language
     
     if db.user_subscribed(update):
-        await update.message.reply_text(_("🏠 Home"), reply_markup=main_keyboard(_))
+        await update.message.reply_text(_("🏠 Main menu"), reply_markup=main_keyboard(_))
     else:
         await update.message.reply_text(_("welcome_message"), reply_markup=start_keyboard(_))
         db.add_user(update)

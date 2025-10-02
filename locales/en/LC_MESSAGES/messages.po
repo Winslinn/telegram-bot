@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 19:54+0000\n"
+"POT-Creation-Date: 2025-10-01 21:25+0000\n"
 "PO-Revision-Date: 2025-09-28 12:15+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,27 +22,31 @@ msgid "📰 Get last news"
 msgstr ""
 
 #: main.py:31 main.py:40
-msgid "👍 Subscribe to the source"
+msgid "➕ Subscribe to the source"
 msgstr ""
 
-#: main.py:32 main.py:41
-msgid "ℹ️ Popular sources"
+#: main.py:32
+msgid "🌟  Popular sources"
 msgstr ""
 
 #: main.py:33
-msgid "🔎 My subscriptions"
+msgid "📋 My subscriptions"
 msgstr ""
 
 #: main.py:34
 msgid "⚙️ Settings"
 msgstr ""
 
+#: main.py:41
+msgid "🌟 Popular sources"
+msgstr ""
+
 #: main.py:47
-msgid "Cancel"
+msgid "❌ Cancel"
 msgstr ""
 
 #: main.py:56
-msgid "🏠 Home"
+msgid "🏠 Main menu"
 msgstr ""
 
 #: main.py:58

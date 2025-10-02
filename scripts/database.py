@@ -56,7 +56,7 @@ def init_db():
     cur.execute('PRAGMA foreign_keys = ON')
     
     cur.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT)')
-    cur.execute('CREATE TABLE IF NOT EXISTS urls (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE)')
+    cur.execute('CREATE TABLE IF NOT EXISTS urls (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE, rss_feed TEXT, title TEXT, genre TEXT)')
     cur.execute('''
         CREATE TABLE IF NOT EXISTS user_urls (
             user_id INTEGER,

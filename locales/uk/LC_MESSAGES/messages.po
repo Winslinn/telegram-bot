@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 19:54+0000\n"
+"POT-Creation-Date: 2025-10-01 21:25+0000\n"
 "PO-Revision-Date: 2025-09-28 12:15+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -23,29 +23,35 @@ msgid "📰 Get last news"
 msgstr "📰 Отримати останні новини"
 
 #: main.py:31 main.py:40
-msgid "👍 Subscribe to the source"
+#, fuzzy
+msgid "➕ Subscribe to the source"
 msgstr "👍 Підписатись на джерело"
 
-#: main.py:32 main.py:41
+#: main.py:32
 #, fuzzy
-msgid "ℹ️ Popular sources"
+msgid "🌟  Popular sources"
 msgstr "ℹ️ Доступні джерела"
 
 #: main.py:33
-msgid "🔎 My subscriptions"
+msgid "📋 My subscriptions"
 msgstr ""
 
 #: main.py:34
 msgid "⚙️ Settings"
 msgstr "⚙️ Налаштування"
 
+#: main.py:41
+#, fuzzy
+msgid "🌟 Popular sources"
+msgstr "ℹ️ Доступні джерела"
+
 #: main.py:47
-msgid "Cancel"
+msgid "❌ Cancel"
 msgstr ""
 
 #: main.py:56
-msgid "🏠 Home"
-msgstr "🏠 Головна"
+msgid "🏠 Main menu"
+msgstr ""
 
 #: main.py:58
 msgid "welcome_message"
@@ -91,3 +97,13 @@ msgstr ""
 msgid ""
 "Probably this is not a url. Please try again url e.g. https://example.com:"
 msgstr ""
+
+#~ msgid "👍 Subscribe to the source"
+#~ msgstr "👍 Підписатись на джерело"
+
+#, fuzzy
+#~ msgid "ℹ️ Popular sources"
+#~ msgstr "ℹ️ Доступні джерела"
+
+#~ msgid "🏠 Home"
+#~ msgstr "🏠 Головна"
